@@ -4,7 +4,7 @@ class CreateGoals < ActiveRecord::Migration[5.2]
       t.string :description
       t.float :value
       t.date :due_on
-      t.references :user, index: true
+      t.references :user, foreign_key: true
 
       t.timestamps
     end
