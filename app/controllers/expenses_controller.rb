@@ -2,7 +2,7 @@ class ExpensesController < ApplicationController
   before_action :set_expense, only: [:show, :update, :destroy]
 
   def index
-    @expenses = Expense.all
+    @expenses = Expense.where(user_id: params[:user_id])
 
     render json: @expenses
   end

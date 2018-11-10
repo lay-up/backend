@@ -2,7 +2,7 @@ class GoalsController < ApplicationController
   before_action :set_goal, only: [:show, :update, :destroy]
 
   def index
-    @goals = Goal.all
+    @goals = Goal.where(user_id: params[:user_id])
 
     render json: @goals
   end
