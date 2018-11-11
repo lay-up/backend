@@ -1,6 +1,6 @@
 class Transaction < ApplicationRecord
   belongs_to :expense
-  belongs_to :user_id
+  belongs_to :user
 
   validates :value, :expense, presence: true
 
@@ -15,7 +15,7 @@ class Transaction < ApplicationRecord
           user_id = ? and
           created_at >= ?
         group by
-          month, year, expense_id;', user_id, Date.today.beginning_of_month - 3.month]
+          month, year;', user_id, Date.today.beginning_of_month - 3.month]
     ).as_json
   end
 end
