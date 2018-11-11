@@ -25,11 +25,21 @@ class GoalService
 
     def save_config
       @config.each do |config|
-        expense = Expense.find(config[:id])
-        unless expense.update_attributes(value: config[:value])
-          @status_ok = false
-          @errors = expense.errors.full_messages
-        end
+        update_expense(Expense.find(config[:id]))
       end
+    end
+
+    def update_expense(expense)
+      if expense.created_at.month != Date.today.month
+        expense = expense.dup
+        store_errors(expense) unless expense.save
+      else
+        store_errors(expense) unless expense.update_attributes(value: @config[:value])
+      end
+    end
+
+    def store_errors(expense)
+      @status_ok = false
+      @errors = expense.errors.full_messages
     end
 end
