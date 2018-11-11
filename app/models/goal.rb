@@ -1,4 +1,6 @@
 class Goal < ApplicationRecord
   belongs_to :user
-  validates :description, :value, :due_on, :user, presence: true
+  validates :description, :value, :due_on, :spared, :user, presence: true
+
+  validates :spared, numericality: { greater_than: 0 }
 end

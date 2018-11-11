@@ -1,10 +1,11 @@
 class Transaction < ApplicationRecord
-  belongs_to :expense
+  belongs_to :expense, optional: true
   belongs_to :user
 
   validates :value, :expense, presence: true
+  validates :expense, presence: true if value < 0
 
-  def self.by_month(user_id)
+  def self.by_month(user_id, timespan)
     find_by_sql(
       ['select
           sum(value),
@@ -15,7 +16,7 @@ class Transaction < ApplicationRecord
           user_id = ? and
           created_at >= ?
         group by
-          month, year;', user_id, Date.today.beginning_of_month - 3.month]
+          month, year;', user_id, timespan]
     ).as_json
   end
 end
