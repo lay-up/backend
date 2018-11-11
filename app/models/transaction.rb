@@ -3,7 +3,6 @@ class Transaction < ApplicationRecord
   belongs_to :user
 
   validates :value, :expense, presence: true
-  validates :expense, presence: true if value < 0
 
   def self.by_month(user_id, timespan)
     find_by_sql(
@@ -16,7 +15,8 @@ class Transaction < ApplicationRecord
           user_id = ? and
           created_at >= ?
         group by
-          month, year;', user_id, timespan]
+          month, year
+        order by month, year desc;', user_id, timespan]
     ).as_json
   end
 end

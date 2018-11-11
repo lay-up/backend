@@ -23,9 +23,9 @@ class GoalService
 
   def totals(user_id)
     totals = []
-    user = User.find(params[:user_id])
+    user = User.find(user_id)
     Transaction.by_month(user_id, Date.today.beginning_of_month - 3.month).each do |total|
-      @totals << {
+      totals << {
         month: Date::MONTHNAMES[total['month']],
         value: user.salary + total['sum']
       }
