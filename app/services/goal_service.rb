@@ -26,7 +26,7 @@ class GoalService
     user = User.find(user_id)
     Transaction.by_month(user_id, Date.today.beginning_of_month - 3.month).each do |total|
       totals << {
-        month: Date::MONTHNAMES[total['month']],
+        month: I18n.localize(Date.new.change(month: total['month']), :format => '%B'),
         value: user.salary + total['sum']
       }
     end
