@@ -12,12 +12,13 @@ class GoalsController < ApplicationController
   end
 
   def create
-    @goal = Goal.new(goal_params)
+    @goal_service = GoalService.new(goal: goal_params, config: params[:config])
+    @goal_service.save
 
-    if @goal.save
-      render json: @goal, status: :created, location: @goal
+    if @goal_service.status_ok
+      render json: @goal_service.goal, status: :created
     else
-      render json: @goal.errors, status: :unprocessable_entity
+      render json: @goal_service.errors, status: :unprocessable_entity
     end
   end
 
